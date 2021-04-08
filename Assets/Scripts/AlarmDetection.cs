@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+[RequireComponent(typeof(AudioSource))]
 public class AlarmDetection : MonoBehaviour
 {
+    [SerializeField] private AudioClip _sirenSound;
+
     private AudioSource _alarmSignalSource;
 
     private float _duration;
@@ -14,14 +17,14 @@ public class AlarmDetection : MonoBehaviour
 
     private void Start()
     {
-        
-        if(GetComponent<AudioSource>())
-        {
-            _alarmSignalSource = GetComponent<AudioSource>();
-            _alarmSignalSource.volume = 0;
-            _targetVolume = 1;
-            _duration = _alarmSignalSource.clip.length / 2;
-        }
+
+        _alarmSignalSource = GetComponent<AudioSource>();
+        _alarmSignalSource.clip = _sirenSound;
+        _alarmSignalSource.loop = true;
+        _alarmSignalSource.playOnAwake = false;
+        _alarmSignalSource.volume = 0;
+        _targetVolume = 1;
+        _duration = _alarmSignalSource.clip.length / 2;
     }
 
     private void Update()
